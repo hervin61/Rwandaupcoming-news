@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Rwanda Updates</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+
+    .header {
+      background-color: #007BFF;
+      color: white;
+      text-align: center;
+      padding: 30px 10px;
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    .lang-select {
+      text-align: right;
+      margin: 10px 20px;
+    }
+
+    .login-container {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .login-container button:disabled {
+      background-color: #999;
+      cursor: not-allowed;
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .signup-link a {
+      color: #007BFF;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+
+    .contact-section {
+      max-width: 400px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #e9f2ff;
+      border-left: 4px solid #007BFF;
+      border-radius: 8px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .contact-section h3 {
+      margin-top: 0;
+      color: #007BFF;
+    }
+
+    .contact-section a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+
+    .contact-section a:hover {
+      text-decoration: underline;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: -8px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header" id="header-text">🇷🇼 Rwanda Updates!</div>
+
+  <div class="lang-select">
+    <label for="language">🌐 Language: </label>
+    <select id="language" onchange="changeLanguage()">
+      <option value="rw">Kinyarwanda</option>
+      <option value="en">English</option>
+      <option value="fr">Français</option>
+    </select>
+  </div>
+
+  <div class="login-container">
+    <h2 id="form-title">Injira</h2>
+    <form id="loginForm">
+      <input type="email" id="email-input" placeholder="Email yawe" />
+      <div id="email-error" class="error"></div>
+
+      <input type="password" id="pass-input" placeholder="Ijambo banga" />
+      <div id="pass-error" class="error"></div>
+
+      <button type="submit" id="submit-button">Injira</button>
+    </form>
+
+    <div class="signup-link" id="signup-link">
+      Nta konti ufite? <a href="signup.html">Iyandikishe hano</a>
+    </div>
+  </div>
+
+  <div class="contact-section">
+    <h3>📞 Contact</h3>
+    <p><strong>Call & WhatsApp:</strong> 
+      <a href="tel:+250798718905">0798718905</a> / 
+      <a href="tel:+250728063287">0728063287</a>
+    </p>
+    <p><strong>Email:</strong> 
+      <a href="mailto:herve0358@gmail.com">herve0358@gmail.com</a>
+    </p>
+  </div>
+
+  <script>
+    const translations = {
+      rw: {
+        header: "🇷🇼 Rwanda Updates!",
+        formTitle: "Injira",
+        email: "Email yawe",
+        pass: "Ijambo banga",
+        submit: "Injira",
+        loading: "Murimo kwinjira...",
+        signup: 'Nta konti ufite? <a href="signup.html">Iyandikishe hano</a>',
+        errors: {
+          email: "Injiza email yawe.",
+          invalidEmail: "Shyiramo email ikwiye.",
+          pass: "Injiza ijambo banga.",
+          success: "Murakaza neza!"
+        }
+      },
+      en: {
+        header: "🇷🇼 Rwanda Updates!",
+        formTitle: "Login",
+        email: "Your Email",
+        pass: "Password",
+        submit: "Login",
+        loading: "Logging in...",
+        signup: 'Don’t have an account? <a href="signup.html">Sign up here</a>',
+        errors: {
+          email: "Please enter your email.",
+          invalidEmail: "Please enter a valid email address.",
+          pass: "Please enter your password.",
+          success: "Welcome back!"
+        }
+      },
+      fr: {
+        header: "🇷🇼 Rwanda Updates!",
+        formTitle: "Connexion",
+        email: "Votre Email",
+        pass: "Mot de passe",
+        submit: "Connexion",
+        loading: "Connexion en cours...",
+        signup: 'Vous n’avez pas de compte ? <a href="signup.html">Inscrivez-vous ici</a>',
+        errors: {
+          email: "Veuillez entrer votre email.",
+          invalidEmail: "Veuillez entrer un email valide.",
+          pass: "Veuillez entrer votre mot de passe.",
+          success: "Bienvenue!"
+        }
+      }
+    };
+
+    let currentLang = "rw";
+
+    function changeLanguage() {
+      currentLang = document.getElementById("language").value;
+      const t = translations[currentLang];
+
+      document.getElementById("header-text").textContent = t.header;
+      document.getElementById("form-title").textContent = t.formTitle;
+      document.getElementById("email-input").placeholder = t.email;
+      document.getElementById("pass-input").placeholder = t.pass;
+      document.getElementById("submit-button").textContent = t.submit;
+      document.getElementById("signup-link").innerHTML = t.signup;
+    }
+
+    // Load saved email if available
+    window.onload = function () {
+      const savedEmail = localStorage.getItem("userEmail");
+      if (savedEmail) {
+        document.getElementById("email-input").value = savedEmail;
+      }
+    };
+
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const t = translations[currentLang].errors;
+      const texts = translations[currentLang];
+
+      const email = document.getElementById("email-input").value.trim();
+      const pass = document.getElementById("pass-input").value.trim();
+      const submitButton = document.getElementById("submit-button");
+
+      // Clear errors
+      document.getElementById("email-error").textContent = "";
+      document.getElementById("pass-error").textContent = "";
+
+      let valid = true;
+
+      if (!email) {
+        document.getElementById("email-error").textContent = t.email;
+        valid = false;
+      } else if (!email.includes("@") || !email.includes(".")) {
+        document.getElementById("email-error").textContent = t.invalidEmail;
+        valid = false;
+      }
+
+      if (!pass) {
+        document.getElementById("pass-error").textContent = t.pass;
+        valid = false;
+      }
+
+      if (valid) {
+        // Show loading
+        submitButton.disabled = true;
+        submitButton.textContent = texts.loading;
+
+        // Simulate loading then redirect
+        setTimeout(() => {
+          alert(t.success);
+          localStorage.setItem("userEmail", email);
+          window.location.href = "homepage.html";
+        }, 1500);
+      }
+    });
+  </script>
+
+</body>
+</html>
